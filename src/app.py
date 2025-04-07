@@ -1,11 +1,9 @@
-from fastapi import FastAPI, Depends
-from sqlalchemy.orm import Session
+from fastapi import FastAPI
 
-from src.database import get_db
 
 app = FastAPI()
 
+
 @app.get('/')
-def ok(session: Session = Depends(get_db)):
-    print(session.autoflush)
+def ok():
     return 'ok'
