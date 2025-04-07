@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-from src.config import config
+from src.config import settings
 
-engine = create_engine(config.database_url_psycopg)
+engine = create_engine(settings.database_url_psycopg)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 

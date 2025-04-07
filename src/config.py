@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 env_path = Path(__file__).parent.parent / '.env'
 
 
-class Config(BaseSettings):
+class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: str
     DB_USER: str
@@ -29,4 +29,4 @@ class Config(BaseSettings):
         model_config = SettingsConfigDict(env_file=env_path)
 
 
-config = Config()
+settings = Settings()
