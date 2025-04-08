@@ -14,6 +14,9 @@ class RequestDAO:
 
     @classmethod
     def get_many(cls, db_session: Session, page: int, limit: int) -> list[GetRequestS]:
+        if page < 1 or limit < 1:
+            raise ValueError('Page and limit must be positive.')
+
         result = db_session.query(
             RequestM
         ).order_by(

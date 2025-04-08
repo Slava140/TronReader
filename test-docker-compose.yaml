@@ -1,0 +1,8 @@
+services:
+  test_db:
+    image: postgres:latest
+    container_name: test_db
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASS}
+    ports:
+      - ${DB_PORT}:5432

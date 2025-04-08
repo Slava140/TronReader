@@ -1,10 +1,11 @@
+import string
 from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Annotated
-from tronpy.keys import is_base58check_address
+from tronpy.keys import is_base58check_address, is_address
 
-from pydantic import BaseModel, BeforeValidator, SecretStr, NonNegativeInt, PlainSerializer, AfterValidator
-from pydantic.types import constr
+from pydantic import BaseModel, BeforeValidator, SecretStr, NonNegativeInt, PlainSerializer, AfterValidator, \
+    StringConstraints
 
 
 def is_utc_datetime_validator(value: datetime) -> datetime:
@@ -17,17 +18,18 @@ def is_utc_datetime_validator(value: datetime) -> datetime:
 
 
 def is_tron_address(value: SecretStr) -> SecretStr:
-    address = value.get_secret_value()
-    if is_base58check_address(address):
-        return value
-    else:
+    address = value.get_secret_value().strip(string.whitespace)
+    if address == '' or not is_address(address):
         raise ValueError('Incorrect address')
+
+    return SecretStr(address)
+
 
 
 UTCDatetime = Annotated[datetime, BeforeValidator(is_utc_datetime_validator)]
 TronAddress = Annotated[
     SecretStr,
-    constr(strip_whitespace=True, min_length=1, max_length=50),
+    StringConstraints(min_length=1, max_length=50),
     AfterValidator(is_tron_address),
     PlainSerializer(lambda v: v.get_secret_value()),
 ]
