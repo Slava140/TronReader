@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from src.database import Base, sql_utc_now
 
 
-class RequestsM(Base):
+class RequestM(Base):
     __tablename__ = 'requests'
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)

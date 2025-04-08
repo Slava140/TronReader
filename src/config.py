@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     APP_HOST: str
     APP_PORT: int
 
+    TRONGRID_API_KEY: str
+
     @property
     def database_url_psycopg(self):
         return "postgresql+psycopg://{user}:{password}@{host}:{port}/{name}".format(
