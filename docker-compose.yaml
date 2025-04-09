@@ -9,5 +9,21 @@ services:
     ports:
       - ${DB_PORT}:5432
 
+  app:
+    container_name: app
+    env_file:
+      - .env
+    environment:
+      PYTHONPATH: 'src'
+      DB_HOST: db
+      DB_PORT: 5432
+    build:
+      context: .
+    command: sh entrypoint.sh
+    ports:
+      - ${APP_PORT}:8000
+    depends_on:
+      - db
+
 volumes:
   pg_data:
